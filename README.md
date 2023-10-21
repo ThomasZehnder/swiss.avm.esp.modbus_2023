@@ -1,5 +1,7 @@
 # modbus-station-arduino
-Modbus station with arduino board
+Modbus station with arduino board. 
+
+Try to add som coils and registers.
 
 
 ## Used Hardware ESP8266

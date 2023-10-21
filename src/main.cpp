@@ -6,7 +6,7 @@
 #include "HwInterface.h"
 #include "Oled.h"
 #include "Ws2812.h"
-
+#include "ModbusServer.h"
 
 #include "Global.h"
 
@@ -30,8 +30,9 @@ void setup()
 
     httpServerSetup(); // will not longer block until WLAN connected
 
-
     hwSetup();
+
+    modbusServerSetup();
 
     if (Assembly.cfg.jsEnabled)
     {
@@ -47,7 +48,6 @@ void setup()
         tinyJs.errorStr = "JS Disabled";
     }
     fullColorWipe(Assembly.cfg.jsEnabled);
-
 }
 
 void loop()
@@ -80,5 +80,5 @@ void loop()
 
     wifiLoop();
     httpServerLoop();
-
+    modbusServerLoop();
 }

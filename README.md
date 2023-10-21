@@ -11,11 +11,17 @@ see https://randomnerdtutorials.com/vs-code-platformio-ide-esp32-esp8266-arduino
 ![ESP8266 Pinout](/images/ESP-12E-Development-Board-ESP8266-NodeMCU-Pinout.png)
 
 ## Use Exceptions
+used for js interpreter
 see [https://docs.platformio.org/en/stable/platforms/espressif8266.html]
 Add to platformio.ini
 
 ; Enable exceptions
 build_flags = -D PIO_FRAMEWORK_ARDUINO_ENABLE_EXCEPTIONS
+
+## modbus library 
+see [https://github.com/emelianov/modbus-esp8266]
+
+see sample [https://github.com/emelianov/modbus-esp8266/blob/master/examples/TCP-ESP/IP-server-Led/IP-server-Led.ino]
 
 ## Wirering
     // Secound Timer

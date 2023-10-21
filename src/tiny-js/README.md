@@ -54,12 +54,6 @@ This is simple, but relatively slow for large structures or arrays.
     Esp.millis(); // return millis of ESP 
     JS.setCycleTime(time); // set JS cycle time [200..10'000ms]
 
-    Wifi.connected(); //return if Wifi is connected
-    Mqtt.connected(); //return if Mqtt is connected
-
-    Mqtt.publish(topic, value); //publish String or Integer under topic. 
-    Mqtt.subscribe(topic); //subscribe topic. return value one's first received
-    Mqtt.clear();    // clear all subscribed topics.
 
 ### Math function
     // --- Math and Trigonometry functions ---

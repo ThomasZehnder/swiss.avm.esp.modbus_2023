@@ -16,3 +16,4 @@ login.credentials
 .vscode/launch_tze.json
 test/*.json
 data/config_wlan.json
+data/config_wlan_secret.json

@@ -1,8 +1,6 @@
 # assembly-station-arduino
-IoT assembly station with arduino board
+Modbus station with arduino board
 
-## Get from Git
-    git clone https://github.com/ThomasZehnder/assembly-station-arduino.git
 
 ## Used Hardware ESP8266
 The ESP8266 requires a 3.3V power supply. 
@@ -17,7 +15,7 @@ Add to platformio.ini
 ; Enable exceptions
 build_flags = -D PIO_FRAMEWORK_ARDUINO_ENABLE_EXCEPTIONS
 
-### Wirering
+## Wirering
     // Secound Timer
     #define TOGGLE_LED_PIN D0 
 
@@ -28,18 +26,15 @@ build_flags = -D PIO_FRAMEWORK_ARDUINO_ENABLE_EXCEPTIONS
 
     //D4 is reserved for build In led -> show http activity
     
-    // D7 used for IR presence sensor
+
     
-//KEY1 moved to D5 to avoid fast overload for IR detection
-//KEY3 moved to D7 to used for IR detection
-#define KEY1_PIN D6
-#define KEY2_PIN D5
-#define KEY3_PIN D7
+//KEY1 white
+//KEY2 green
+//KEY3 red
+#define KEY1_PIN D7
+#define KEY2_PIN D6
+#define KEY3_PIN D5
 
-#define IR_PRESENCE_PIN D7
-#define LDR_PIN D8
-
-#define TEMP_PIN D5
 
 ## Use PlatformIO
 In VSCode see elements in the buttom left corner to transfer projekt to arduino board.
@@ -56,7 +51,7 @@ Use LittleFS instead
 After creating and saving the file or files you want to upload under the data folder, follow the next steps:
 
 * Click the PIO icon at the left side bar. The project tasks should open.
-* Select env:nodemcuv2 (it may different depending on the board you�re using).
+* Select env:nodemcuv2 (it may different depending on the board you are using).
 * Expand the Platform menu.
 * Select Build Filesystem Image.
 * Finally, click Upload Filesystem Image.
@@ -79,22 +74,14 @@ JSENABLE (bool):
 interpreter.
 * false, Tiny-JS interpreter is fully disabled! , a default IIOT assembly model is implemented, Keys, OLED, LED
 
-MQTTENABLE (bool): 
-* true,  MQTT are used as interface to IIoT assembly box
-* false, no message
-
-HTTPENABLE (bool): 
-* true,  HTTP Restservice is used to publish IIoT assembly box, only send
-* false, no message
 
 ### Sample Configuration
 
     {
-        "DEVICEID": "iot_099",
+        "DEVICEID": "modbus_099",
         "ACCESSPOINT": true,
         "JSENABLE": true,
-        "MQTTENABLE": false,
-        "HTTPENABLE": false
+
     }
 
 ## configure Wifi and Webserver
@@ -117,25 +104,5 @@ http://192.168.1.157/reboot
 ### File Directory Arduino by REST Call
 http://192.168.1.157/dir
 
-## MQTT Connection
-Try public internet accessible MQTT broker 
-
-
-        "NAME": "public.mqtthq.com",
-        "HOST": "52.13.116.147",
-        "PORT": 1883,
-        "LOGIN": "",
-        "PASSWORD": ""
-
-        "NAME": "public:public@public.cloud.shiftr.io 34.77.13.55",
-        "HOST": "34.77.13.55",
-        "PORT": 1883,
-        "LOGIN": "public",
-        "PASSWORD": "public"
-
-## AKENZA setting
-! use ip, not hostname on ESP, can't resolve hostname!
-MQTT Broker URL
-tcp://mqtt.akenza.io:1883
-
-https://docs.api.akenza.io/
+## Modbus Connection
+        "PORT": 504

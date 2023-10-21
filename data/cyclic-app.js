@@ -10,6 +10,15 @@ if (Esp.getKey(0)) {
 }
 else {
     Esp.setLed(0, "black");
+
+}
+
+if (x % 2) {
+    Esp.setLed(3, "green");
+}
+else {
+    Esp.setLed(3, "black");
+
 }
 
 Esp.setLed(1, "red");

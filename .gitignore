@@ -15,3 +15,4 @@ login.credentials
 .vscode/c_cpp_properties_tze_002.json
 .vscode/launch_tze.json
 test/*.json
+data/config_wlan.json

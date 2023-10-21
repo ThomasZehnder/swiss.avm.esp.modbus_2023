@@ -72,7 +72,7 @@ public:
 
     struct tstKey keys[3];
 
-    struct tstLed leds[8];
+    struct tstLed leds[4];
 
     tstCfg cfg;
 

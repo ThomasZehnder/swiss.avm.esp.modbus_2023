@@ -48,7 +48,7 @@ void fullColorWipe(bool mode)
     if (mode)
     {
         colorWipe(strip.Color(0, 0, 255), DEMO_DELAY); // Blue
-        colorWipe(strip.Color(0, 0, 0), DEMO_DELAY); // off
+        colorWipe(strip.Color(0, 0, 0), DEMO_DELAY);   // off
     }
     else
     {
@@ -126,6 +126,10 @@ void ledSetState(String s)
 
 void setLed(uint16_t i, String color)
 {
+    int nbrLeds = sizeof(Assembly.leds) / sizeof(Assembly.leds[0]);
+    // change direction on numbering
+    i = nbrLeds - 1 - i;
+
     if (color.startsWith("#"))
     {
         long int rgb = strtoul(color.substring(1, color.length()).c_str(), nullptr, 16); //=>rgb=0x001234FE;
@@ -134,7 +138,7 @@ void setLed(uint16_t i, String color)
         byte b = (byte)(rgb);
 
         strip.setPixelColor(i, strip.Color(r, g, b));
-        if (i < sizeof(Assembly.leds) / sizeof(Assembly.leds[0]))
+        if (i < nbrLeds)
         {
             Assembly.leds[i].color = color;
         }
@@ -177,7 +181,7 @@ void setLed(uint16_t i, String color)
         {
             strip.setPixelColor(i, strip.Color(16, 16, 16)); // white 50% brigtness
         }
-        if (i < sizeof(Assembly.leds) / sizeof(Assembly.leds[0]))
+        if (i < nbrLeds)
         {
             Assembly.leds[i].color = getLedRgbColor(i);
         }

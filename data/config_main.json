@@ -1,0 +1,8 @@
+{
+    "DEVICEID": "modbus_999_avm",
+    "ESPMODE_NOTE": "0:Modbus, 1:Programming mode",
+    "ESPMODE": 0,
+    "PUBLISHERINTERVAL": 1000,
+    "ACCESSPOINT": true,
+    "JSENABLE": false
+}

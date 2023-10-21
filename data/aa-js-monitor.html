@@ -1,0 +1,28 @@
+<h3>JS-Monitor</h3>
+
+<button onclick="loadMain('a-js-editor.html', 'aa-js-editor.html','cyclic-app.js');"><img src="./icons/edit.svg"/> Javascript Editor</button>
+<button class="warning" onclick="sendReboot('jsinitboot')">Execute EXIT	&rarr;INIT&rarr;CYCLIC</button>
+<button class="warning" onclick="sendReboot('jscyclicboot')">Reload CYCLIC</button>
+<button onclick="sendReboot('jssinglerun')">Single Run</button>
+<button onclick="sendReboot('jscyclicrun')">Cyclic Run</button>
+<button class="warning" onclick="sendReboot('jssetup')">Setup JS Interpreter</button>
+<button class="warning" onclick="sendReboot('jsrelease')">Release JS Interpreter</button>
+
+<div id="spinner-container" class="spinner-container">
+    <fieldset>
+        <legend>Select refresh rate:</legend>
+    
+        <div>
+          <input type="radio" id="off" name="refresh"checked onClick="changeRefreshRate(0);">
+          <label for="off">Off</label>
+        </div>
+    
+        <div>
+          <input type="radio" id="fast" name="refresh" onClick="changeRefreshRate(500);">
+          <label for="fast">Fast 0.5s</label>
+
+          <input type="radio" id="slow" name="refresh" onClick="changeRefreshRate(2000);">
+          <label for="slow">Slow 2s</label>
+        </div>
+    </fieldset>
+</div>

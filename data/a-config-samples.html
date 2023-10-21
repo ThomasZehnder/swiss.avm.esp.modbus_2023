@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Page</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+</head>
+
+<body>
+
+    <h2>Sample for config_wlan.json</h2>
+    Three WLAN and MQTT configurations are suppoerted.
+    <pre>
+        [
+        {
+            "SSID": "AVM_GUEST",
+            "PASSWORD": "***"
+        },
+        {
+            "SSID": "***",
+            "PASSWORD": "***"
+        },
+        {
+            "SSID": "***",
+            "PASSWORD": "***"
+        }
+    ]
+    </pre>
+    <h2>Sample for config_httpmqtt.json</h2>
+    Three MQTT configurations are suppoerted. Selected MQTT array index depends on forund WLAN index.
+    NAME is only used as description, irelevant for connection!
+    <pre>
+        [
+        {
+            "NAME": "public.mqtthq.com",
+            "HOST": "52.13.116.147",
+            "PORT": 1883,
+            "LOGIN": "",
+            "PASSWORD": ""
+        },
+        {
+            "NAME": "NB-105@avm",
+            "HOST": "10.37.30.103",
+            "PORT": 1883,
+            "LOGIN": "",
+            "PASSWORD": ""
+        },
+        {
+            "NAME": "TZE@avm",
+            "HOST": "192.168.1.95",
+            "PORT": 1883,
+            "LOGIN": "",
+            "PASSWORD": ""
+        }
+    ]
+    </pre>
+
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<h3>Home-Menu</h3>
+
+<button onclick="loadArticle('a-home.html');"><img class="icon" src="./icons/home.svg" />Home</button>
+<!-- <button onclick="loadArticle('ledcolor.html');">LED Labor</button>
+<button onclick="window.open('/ledcolor.html','_blank');">RGB Labor</button>
+<button onclick="window.open('/js-editor.html','_blank');">JS Programmer Labor</button>-->
+<button onclick="window.open('https://de.wikipedia.org/wiki/Modbus','_blank');">Modbus Wiki</button>
+<div id="spinner-container" class="spinner-container">
+    <fieldset>
+        <legend>Select refresh rate:</legend>
+    
+        <div>
+          <input type="radio" id="off" name="refresh" checked onClick="changeRefreshRate(0);">
+          <label for="off">Off</label>
+        </div>
+    
+        <div>
+          <input type="radio" id="fast" name="refresh" onClick="changeRefreshRate(500);">
+          <label for="fast">Fast 0.5s</label>
+
+          <input type="radio" id="slow" name="refresh" onClick="changeRefreshRate(2000);">
+          <label for="slow">Slow 2s</label>
+        </div>
+    </fieldset>
+</div>

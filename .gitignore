@@ -1,0 +1,17 @@
+.pio
+src/credentials.h
+/node_modules
+
+
+*.log
+
+login.credentials
+
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+
+
+.vscode/c_cpp_properties_tze_001.json
+.vscode/c_cpp_properties_tze_002.json
+.vscode/launch_tze.json
+test/*.json

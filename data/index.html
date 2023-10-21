@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AVM Air Meter 2023</title>
+    <link rel="icon" type="image/png" href="./favicon.png">
+    <link rel="stylesheet" href="./style.css">
+
+
+    <!--CodeMirror instance on public space-->
+    <link rel="stylesheet" href="http://experimentierlabor2023.avm.swiss/data/lib/codemirror.css">
+    <script src="http://experimentierlabor2023.avm.swiss/data/lib/codemirror.js"></script>
+    <script src="http://experimentierlabor2023.avm.swiss/data/addon/mode/javascript/javascript.js"></script>
+    <link rel="stylesheet" href="http://experimentierlabor2023.avm.swiss/data/theme/cobalt.css">
+
+    <link rel="stylesheet" href="http://experimentierlabor2023.avm.swiss/data/addon/hint/show-hint.css">
+    <script src="http://experimentierlabor2023.avm.swiss/data/addon/hint/javascript-hint.js"></script>
+    <script src="http://experimentierlabor2023.avm.swiss/data/addon/hint/show-hint.js"></script>
+
+    <script src="http://experimentierlabor2023.avm.swiss/data/addon/edit/closebrackets.js"></script>
+    <script src="http://experimentierlabor2023.avm.swiss/data/addon/edit/closetag.js"></script>
+    <script src="http://experimentierlabor2023.avm.swiss/data/addon/edit/matchbrackets.js"></script>
+    <script src="http://experimentierlabor2023.avm.swiss/data/addon/edit/trailingspace.js"></script>
+
+    <script>
+
+        function loadMain(articleUrl, asideUrl, param) {
+            loadArticle(articleUrl, param);
+            loadAside(asideUrl);
+        }
+
+        function loadArticle(url, param) {
+            stopTimer();
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (html) {
+                    //console.log(html);
+                    const myArticle = document.getElementById("articleId");
+                    myArticle.innerHTML = html;
+
+                    //execude page initializizer
+                    //console.log("loaded url: ", url);
+                    if (url.startsWith('a-home')) {
+                        startTimer(['/assembly'], ['assemblyId'], 10000);
+                    }
+                    else if (url.startsWith('a-config')) {
+                        //console.log("Load Configpage: ", param)
+                        //loadElement(param, "preId");
+                        loadEditor(param);
+                        setTitle(String("Edit ") + param);
+                    }
+                    else if (url.startsWith('a-files')) {
+                        console.log("Load files: ", param)
+                        loadElement(param, "preId");
+                    }
+                    else if (url.startsWith('a-js-editor')) {
+                        console.log("JavaSript file: ", param)
+                        loadEditor(param);
+                        setTitle(String("Javascript Editor for ") + param);
+                    }
+                    else if (url.startsWith('a-js-monitor')) {
+                        console.log("JavaSript file: ", param)
+                        loadEditor(param);
+                        setTitle(String("Javascript Monitor ") + param);
+                        startTimer(['/jsconsole', '/jserror'], ['consoleId', 'errorId'], 10000);
+                    }
+                });
+        }
+
+        function loadAside(url, param) {
+
+            fetch(url)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (html) {
+                    //console.log(html);
+                    const myArticle = document.getElementById("asideId");
+                    myArticle.innerHTML = html;
+                });
+        }
+
+        let loadElementSemaphore = true;
+        function loadElement(url, id) {
+            if (loadElementSemaphore) {
+                loadElementSemaphore = false;
+                showSpinner(); // Call this when you want to show the spinner
+                fetch(url)
+                    .then(function (response) {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.text();
+                    })
+                    .then(function (html) {
+                        //console.log(html);
+                        const myElement = document.getElementById(id);
+                        myElement.innerHTML = html;
+                        loadElementSemaphore = true;
+                        hideSpinner(); // Call this when you want to hide the spinner
+                    })
+                    .catch(function (error) {
+                        console.error("Error loading element:", error);
+                        setFooter("Error loading " + url + ": " + error.message);
+                        loadElementSemaphore = true;
+                    });
+            }
+        }
+
+        function setTitle(text) {
+            const myTitle = document.getElementById("titleId");
+            myTitle.innerHTML = text;
+        }
+
+        function setFooter(text) {
+            const myfooter = document.getElementById("pFooter");
+            myfooter.innerHTML = text;
+        }
+
+        //sendReboot
+        function sendReboot(bootMode) {
+            fetch('reboot?bootmode=' + bootMode)
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (html) {
+                    //console.log(html);
+                    setFooter(html);
+                });
+        }
+
+        //Fetch cyclic
+        var timerId = null;
+        var fetchUrl;
+        var elementId;
+
+        function startTimer(url, id, time) {
+            stopTimer();
+            fetchUrl = url;
+            elementId = id;
+            var i = 0;
+            timerId = setInterval(() => {
+                i = (i + 1) % fetchUrl.length;
+                //console.log(typeof(fetchUrl[i]), fetchUrl.length);
+                loadElement(fetchUrl[i], elementId[i]);
+            }, time);
+        }
+
+        function stopTimer() {
+            clearInterval(timerId);
+            timerId = null;
+        }
+
+        //change refreshRate
+        function changeRefreshRate(time) {
+            console.log(time);
+            stopTimer();
+            if (time > 0) {
+                startTimer(fetchUrl, elementId, time);
+            }
+        }
+
+        function showSpinner() {
+            const spinner = document.createElement("div");
+            spinner.className = "spinner";
+            const spinnerContainer = document.getElementById("spinner-container");
+            if (spinnerContainer) {
+                spinnerContainer.appendChild(spinner);
+                console.log("show spinner");
+            }
+            else {
+                console.log("show spinnercontainer not found");
+            }
+        }
+
+        function hideSpinner() {
+            const spinner = document.querySelector(".spinner");
+            const spinnerContainer = document.getElementById("spinner-container");
+            if (spinner) {
+                spinnerContainer.removeChild(spinner);
+                console.log("hide spinner");
+            }
+        }
+
+        // Code Mirror functions
+        var editorUrl = "";
+        var editor;
+        function loadEditor(url) {
+            editorUrl = url;
+            editor = CodeMirror.fromTextArea(document.getElementById("editorId"), {
+                mode: {
+                    name: "javascript",
+                    globalVars: true
+                },
+                theme: "cobalt",
+                lineNumbers: true,
+
+                autoCloseBrackets: true,
+                autoCloseTags: true,
+                matchBrackets: true,
+                showTrailingSpace: true,
+
+                hint: CodeMirror.hint.javascript,
+
+                extraKeys: {
+                    "Ctrl-Space": "autocomplete"
+                }
+
+            });
+            editor.save();
+            loadCodeMirror();
+        }
+        function loadCodeMirror() {
+            fetch(editorUrl)
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.text();
+                })
+                .then(function (c) {
+                    editor.setValue(c);
+                    console.log("load click: ", editorUrl);
+                    //console.log(c);
+                    setFooter("Load codemirror " + editorUrl + " done.")
+                })
+                .catch(function (error) {
+                    console.error("Error loading CodeMirror:", error);
+                    setFooter("Error loading " + editorUrl + ": " + error.message);
+                });
+
+        }
+
+        function saveCodeMirror() {
+            var c = editor.getValue();
+            console.log("save click: ", editorUrl);
+            //console.log(c);
+            setFooter("saveCodeMirror... ");
+
+            //validate JSON
+            if (editorUrl.endsWith('.json')) {
+                try {
+                    var x = JSON.parse(c);
+
+                } catch (e) {
+                    alert('JSON not valid: ' + e);
+                    setFooter("JSON error " + e);
+                    console.log(e);
+                    return;
+                }
+            }
+
+            fetch('/store?name=' + editorUrl, {
+                method: 'POST',
+                body: c
+            })
+                .then(res => res.text())
+                .then(res => {
+                    console.log(res);
+                    setFooter("saveCodeMirror ok " + res);
+                })
+                .catch(err => {
+                    console.log(err);
+                    setFooter("saveCodeMirror error " + err);
+                })
+        }
+    </script>
+</head>
+
+<body onload="loadMain('a-home.html', 'aa-home.html',0);">
+    <header>
+        <h1>Modbus TCP with ESP8266</h1>
+    </header>
+    <nav>
+        <ul>
+            <li class="menu"><a class="button" onclick="loadMain('a-home.html', 'aa-home.html');">Home</a></li>
+            <li class="menu"><a class="button" onclick="loadMain('a-files.html', 'aa-files.html', '/dir');">Files</a>
+            </li>
+ <!--            <li class="menu"><a class="button"
+                    onclick="loadMain('a-js-monitor.html', 'aa-js-monitor.html','cyclic-app.js');">Javascript</a></li>
+ -->            <li class="menu"><a class="button"
+                    onclick="loadMain('a-config.html', 'aa-config.html','config_main.json');">Config</a>
+            </li>
+            <li class="menu"><a class="button" onclick="loadArticle('a-contact.html');">Contact</a></li>
+        </ul>
+
+        <img class="logo" src="logo.png">
+
+    </nav>
+
+    <main>
+        <article id="articleId">
+            <h2> ... loading dynamicaly...</h2>
+        </article>
+        <aside id="asideId">
+            <h2>... loading dynamicaly...</h2>
+        </aside>
+    </main>
+
+    <footer>
+        <p id="pFooter"> V1.0 &copy;&nbsp;Copyright 2023 by avm. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

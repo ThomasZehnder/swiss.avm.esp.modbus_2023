@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>JavaSript Editor</title>
+    <!--CodeMirror instance -->
+    <!--
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <script src="lib/codemirror.js"></script>
+    <script src="addon/mode/javascript/javascript.js"></script>
+    <link rel="stylesheet" href="theme/cobalt.css">
+
+    <link rel="stylesheet" href="addon/hint/show-hint.css">
+    <script src="addon/hint/javascript-hint.js"></script>
+    <script src="addon/hint/show-hint.js"></script>
+
+    <script src="addon/edit/closebrackets.js"></script>
+    <script src="addon/edit/closetag.js"></script>
+    <script src="addon/edit/matchbrackets.js"></script>
+    <script src="addon/edit/trailingspace.js"></script> 
+-->
+
+</head>
+
+<body>
+    <h2 id="titleId"> JavaScript ... Editor</h2>
+    <button onclick="loadCodeMirror()">Load</button>
+    <button onclick="saveCodeMirror()">Save</button>
+
+    <textarea id="editorId">
+    {
+        a:"dynamic loading",
+        b:7,
+        c:18.1818
+    }
+    </textarea>
+
+
+    <!--     
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+            mode: {
+                name: "javascript",
+                globalVars: true
+            },
+            theme: "cobalt",
+            lineNumbers: true,
+
+            autoCloseBrackets: true,
+            autoCloseTags: true,
+            matchBrackets: true,
+            showTrailingSpace: true,
+
+            hint: CodeMirror.hint.javascript,
+
+            extraKeys: {
+                "Ctrl-Space": "autocomplete"
+            }
+
+        });
+        editor.save();
+
+
+    </script>
+
+     -->
+
+</body>
+
+</html>

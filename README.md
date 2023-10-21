@@ -1,4 +1,4 @@
-# assembly-station-arduino
+# modbus-station-arduino
 Modbus station with arduino board
 
 
@@ -26,14 +26,12 @@ build_flags = -D PIO_FRAMEWORK_ARDUINO_ENABLE_EXCEPTIONS
 
     //D4 is reserved for build In led -> show http activity
     
-
-    
-//KEY1 white
-//KEY2 green
-//KEY3 red
-#define KEY1_PIN D7
-#define KEY2_PIN D6
-#define KEY3_PIN D5
+    //KEY1 white
+    //KEY2 green
+    //KEY3 red
+    #define KEY1_PIN D7
+    #define KEY2_PIN D6
+    #define KEY3_PIN D5
 
 
 ## Use PlatformIO

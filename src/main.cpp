@@ -38,7 +38,7 @@ void setup()
     {
         if (Assembly.cfg.espMode != ESPMODE_PROGRAMMING)
         {
-            tinyJs.setup();
+            //tinyJs.setup();
         }
         tinyJs.errorStr = "Start JS Interpreter first by click 'setup button' ...";
     }

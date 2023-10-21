@@ -1,0 +1,14 @@
+{
+  "name": "modbus-nodejs",
+  "version": "1.0.0",
+  "description": "testenvronment for modbus with node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "node localhost-test"
+  },
+  "author": "TZE",
+  "license": "MIT",
+  "dependencies": {
+    "modbus-stream": "^0.46.0"
+  }
+} 

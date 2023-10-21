@@ -1,6 +1,5 @@
 #include <ESP8266WiFi.h>
 #include <Ticker.h>
-#include <AsyncMqttClient.h>
 
 #include "credentials.h"
 
@@ -14,12 +13,9 @@ WiFiEventHandler wifiConnectHandler;
 WiFiEventHandler wifiDisconnectHandler;
 // Ticker wifiReconnectTimer;  //Wifi is handled in Http Context
 
-
 Dictionary<String, String> SubscriptionList;
 
 #define ASSENMBLY_JOB_TOPIC "job"
-
-
 
 void onWifiConnect(const WiFiEventStationModeGotIP &event)
 {

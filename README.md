@@ -69,7 +69,7 @@ After creating and saving the file or files you want to upload under the data fo
 see [https://arduino-esp8266.readthedocs.io/en/latest/libraries.html#ticker]
 
 
-# Configure IIot AVM Air Meter
+# Configure Modbus Box
 
 DEVICEID (String): Used as Identification of device and is used as prefix in the MQTT Topic definition.
 

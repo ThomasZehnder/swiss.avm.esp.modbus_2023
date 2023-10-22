@@ -170,10 +170,11 @@ void assemblyJson()
   doc["coil_0"] = Assembly.modbus.coils[0];
   doc["coil_1"] = Assembly.modbus.coils[1];
   doc["coil_2"] = Assembly.modbus.coils[2];
+  
 
   doc["register_0"] = Assembly.modbus.holdingRegister[0];
   doc["register_1"] = Assembly.modbus.holdingRegister[1];
-  doc["register_2"] = Assembly.modbus.holdingRegister[1];
+  doc["register_2"] = Assembly.modbus.holdingRegister[2];
 
   doc["cfg_index"] = Assembly.cfg.index;
 

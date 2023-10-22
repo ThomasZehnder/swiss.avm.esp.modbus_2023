@@ -5,6 +5,7 @@ const serverIp = '192.168.1.26';
 const serverPort = 503;
 
 let toggle = false;
+let counter = 256;
 
 modbus.tcp.connect(serverPort, serverIp, { debug: "automaton-2454" }, (err, client) => {
     // do something with connection
@@ -12,46 +13,6 @@ modbus.tcp.connect(serverPort, serverIp, { debug: "automaton-2454" }, (err, clie
     console.log(err);
     if (err) throw err;
 
-    // Define the Modbus request to toggle Coil 100 (address is 99 because Modbus addresses start at 0)
-    const requestCoil = {
-        //unit: 1, // Modbus unit ID
-        address: 0, // Coil 100 (address is 99 because Modbus addresses start at 0)
-        value: 0, // Set the coil to ON
-    };
-
-    // Send the request to toggle the coil
-    client.writeSingleCoil(requestCoil, (err) => {
-        if (err) {
-            console.error('Error toggling the coil:', err);
-        } else {
-            console.log('Coil 100 toggled ON');
-        }
-    });
-
-    client.readCoils({ address: 100, quantity: 1 }, (err, res) => {
-        if (err) throw err;
-
-        console.log(res.state); // response
-    })
-
-    // Define the Modbus request to toggle Coil 100 (address is 99 because Modbus addresses start at 0)
-    const buf = Buffer.alloc(256);
-    const len = buf.write("a");
-    const requestRegister = {
-        //unit: 1, // Modbus unit ID
-        address: 1, // Register 100 (address is 99 because Modbus addresses start at 0)
-        value: buf, // Set the coil to ON
-    };
-
-
-    // Send the request to toggle the coil
-    client.writeSingleRegister(requestRegister, (err) => {
-        if (err) {
-            console.error('Error set the reguster:', err);
-        } else {
-            console.log('Register 100 set');
-        }
-    });
 
     // Handle errors during the connection
     client.on('error', (err) => {
@@ -67,11 +28,14 @@ modbus.tcp.connect(serverPort, serverIp, { debug: "automaton-2454" }, (err, clie
 
     setInterval(() => {
         toggle = !toggle;
-        // Define the Modbus request to toggle Coil 100 (address is 99 because Modbus addresses start at 0)
+
+        counter++;
+
+        // Define the Modbus request to toggle Coil 0
         const requestCoil = {
             //unit: 1, // Modbus unit ID
-            address: 0, // Coil 100 (address is 99 because Modbus addresses start at 0)
-            value: toggle, // Set the coil to ON
+            address: 0, // Coil 0
+            value: toggle, // Set the coil to toggle
         };
 
         // Send the request to toggle the coil
@@ -79,10 +43,27 @@ modbus.tcp.connect(serverPort, serverIp, { debug: "automaton-2454" }, (err, clie
             if (err) {
                 console.error('Error toggling the coil:', err);
             } else {
-                console.log('Coil 0 toggled ON', toggle);
+                console.log('Coil 0 toggled: ', toggle);
             }
         });
 
+        const buf = Buffer.alloc(256);
+        const len = buf.writeUInt16BE(counter);
+        const requestRegister = {
+            //unit: 1, // Modbus unit ID
+            address: 1, // Register 1
+            value: buf, // Set register
+        }
+
+ 
+        // Send the request to toggle the coil
+        client.writeSingleRegister(requestRegister, (err) => {
+            if (err) {
+                console.error('Error set the register:', err);
+            } else {
+                console.log('Register 1 set', counter);
+            }
+        });
 
     }, 1000);
 

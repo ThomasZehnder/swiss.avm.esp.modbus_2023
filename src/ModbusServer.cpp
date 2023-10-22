@@ -67,14 +67,20 @@ void modbusServerSetup()
 void modbusServerLoop()
 {
     mb.task(); // Common local Modbus task
+    /*
     mb.readHreg(0, HREG_0, &Assembly.modbus.holdingRegister[HREG_0], 1, cb);
     mb.readHreg(0, HREG_1, &Assembly.modbus.holdingRegister[HREG_1], 1, cb);
     mb.readHreg(0, HREG_2, &Assembly.modbus.holdingRegister[HREG_2], 1, cb);
+*/
+
+    Assembly.modbus.holdingRegister[HREG_0] = mb.Hreg(HREG_0);
+    Assembly.modbus.holdingRegister[HREG_1] = mb.Hreg(HREG_1);
+    Assembly.modbus.holdingRegister[HREG_2] = mb.Hreg(HREG_2);
 
     Assembly.modbus.coils[LED_COIL] = mb.Coil(LED_COIL);
     Assembly.modbus.coils[1] = mb.Coil(1);
     Assembly.modbus.coils[2] = mb.Coil(2);
-    
+
     if (Assembly.modbus.coils[LED_COIL] != coil)
     {
         coil = Assembly.modbus.coils[LED_COIL];

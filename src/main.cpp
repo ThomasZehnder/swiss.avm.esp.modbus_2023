@@ -1,7 +1,6 @@
 #include <Arduino.h>
 
 #include "HttpServer.h"
-#include "HttpRestClient.h"
 #include "Wifi.h"
 #include "HwInterface.h"
 #include "Oled.h"

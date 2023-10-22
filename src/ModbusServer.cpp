@@ -2,14 +2,18 @@
 
 #include <ModbusIP_ESP8266.h>
 
+#include "Global.h"
 #include "ModbusServer.h"
 #include "Ws2812.h"
 
-//https://github.com/emelianov/modbus-esp8266/blob/master/examples/TCP-ESP/README.md
+// https://github.com/emelianov/modbus-esp8266/blob/master/examples/TCP-ESP/README.md
 
-const uint16_t REG = 512; // Modbus Hreg Offset
+const uint16_t HREG_0 = 0; // Modbus Hreg Offset
+const uint16_t HREG_1 = 1; // Modbus Hreg Offset
+const uint16_t HREG_2 = 2; // Modbus Hreg Offset
+
 // Modbus Registers Offsets
-const int LED_COIL = 100;
+const uint16_t LED_COIL = 0;
 bool coil = true;
 
 // ModbusIP object
@@ -36,24 +40,44 @@ void cbGetCoil(uint16_t coil)
     return;
 }
 
+bool cb(Modbus::ResultCode event, uint16_t transactionId, void *data)
+{ // Callback to monitor errors
+    if (event != Modbus::EX_SUCCESS)
+    {
+        Serial.print("Request result: 0x");
+        Serial.print(event, HEX);
+    }
+    return true;
+}
+
 void modbusServerSetup()
 {
     mb.server(503); // Act as Modbus TCP server
     mb.onConnect(cbConnect);
-    //mb.onDisconnect(cbDisconnect);
-    //mb.onGetCoil(cbGetCoil);
-    mb.addHreg(100); // Expose Holding Register #100
-    mb.addCoil(LED_COIL);
+    // mb.onDisconnect(cbDisconnect);
+    // mb.onGetCoil(cbGetCoil);
+    mb.addHreg(HREG_0, 111, 1);  // Expose Holding Register #0
+    mb.addHreg(HREG_1, 0xFF, 1); // Expose Holding Register #1
+    mb.addHreg(HREG_2, 200, 1);  // Expose Holding Register #2
+    mb.addCoil(LED_COIL, 1);
+    mb.addCoil(1, 1);
+    mb.addCoil(2, 1);
 }
 
 void modbusServerLoop()
 {
     mb.task(); // Common local Modbus task
+    mb.readHreg(0, HREG_0, &Assembly.modbus.holdingRegister[HREG_0], 1, cb);
+    mb.readHreg(0, HREG_1, &Assembly.modbus.holdingRegister[HREG_1], 1, cb);
+    mb.readHreg(0, HREG_2, &Assembly.modbus.holdingRegister[HREG_2], 1, cb);
 
-    bool temp = mb.Coil(LED_COIL);
-    if (temp != coil)
+    Assembly.modbus.coils[LED_COIL] = mb.Coil(LED_COIL);
+    Assembly.modbus.coils[1] = mb.Coil(1);
+    Assembly.modbus.coils[2] = mb.Coil(2);
+    
+    if (Assembly.modbus.coils[LED_COIL] != coil)
     {
-        coil = temp;
+        coil = Assembly.modbus.coils[LED_COIL];
         Serial.print("Modbus coil 100 changed: ");
         Serial.println(coil);
         if (coil)

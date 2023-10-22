@@ -145,7 +145,6 @@ void assemblyJson()
   doc["localIp"] = Assembly.localIp;
   doc["ssid"] = Assembly.ssid;
   doc["compiledate"] = Assembly.compileDate;
-  doc["mqttBroker"] = Assembly.mqttBroker;
 
   doc["millis"] = millis();
   doc["rssi"] = httpRssi();
@@ -168,6 +167,14 @@ void assemblyJson()
 
   doc["processState"] = Assembly.getProcessState();
 
+  doc["coil_0"] = Assembly.modbus.coils[0];
+  doc["coil_1"] = Assembly.modbus.coils[1];
+  doc["coil_2"] = Assembly.modbus.coils[2];
+
+  doc["register_0"] = Assembly.modbus.holdingRegister[0];
+  doc["register_1"] = Assembly.modbus.holdingRegister[1];
+  doc["register_2"] = Assembly.modbus.holdingRegister[1];
+
   doc["cfg_index"] = Assembly.cfg.index;
 
   doc["wifi_0"] = Assembly.cfg.wifi[0].ssid;
@@ -177,7 +184,6 @@ void assemblyJson()
   doc["modbus_port_0"] = Assembly.cfg.modbus[0].port;
   doc["modbus_port_1"] = Assembly.cfg.modbus[1].port;
   doc["modbus_port_2"] = Assembly.cfg.modbus[2].port;
-
 
   // Lastly, you can print the resulting JSON to a String, use the "pretty" variant for readable outputs in browser
   String output;

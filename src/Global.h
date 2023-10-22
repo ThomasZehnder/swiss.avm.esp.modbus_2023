@@ -57,6 +57,13 @@ struct tstLed
     String color = "#------";
 };
 
+struct tstModbus
+{
+    bool coils[20];
+    uint16_t holdingRegister[20];
+
+};
+
 class clAssembly
 {
 public:
@@ -73,6 +80,8 @@ public:
     struct tstKey keys[3];
 
     struct tstLed leds[4];
+
+    struct tstModbus modbus;
 
     tstCfg cfg;
 

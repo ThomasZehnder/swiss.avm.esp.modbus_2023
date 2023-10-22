@@ -52,7 +52,11 @@ bool cb(Modbus::ResultCode event, uint16_t transactionId, void *data)
 
 void modbusServerSetup()
 {
-    mb.server(503); // Act as Modbus TCP server
+    int port = Assembly.cfg.modbus[Assembly.cfg.index].port;
+    Serial.print("Modbus Server starting on port: ");
+    Serial.println(port);
+    
+    mb.server(port); // Act as Modbus TCP server
     mb.onConnect(cbConnect);
     // mb.onDisconnect(cbDisconnect);
     // mb.onGetCoil(cbGetCoil);
